@@ -15,7 +15,9 @@ import android.widget.ProgressBar;
 import java.util.ArrayList;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import es.unex.giiis.asee.executorslab.InjectorUtils;
+
+import es.unex.giiis.asee.executorslab.AppContainer;
+import es.unex.giiis.asee.executorslab.MyApplication;
 import es.unex.giiis.asee.executorslab.R;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -40,8 +42,9 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.OnListI
         Button searchButton = findViewById(R.id.searchButton);
         mProgressBar = findViewById(R.id.progressBar);
 
-        MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(this.getApplicationContext());
-        MainActivityViewModel mViewModel = new ViewModelProvider(this, factory).get(MainActivityViewModel.class);
+        //MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(this.getApplicationContext());
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        MainActivityViewModel mViewModel = new ViewModelProvider(this, appContainer.factory).get(MainActivityViewModel.class);
         mViewModel.getRepos().observe(this, repos -> {
             mAdapter.swap(repos);
             // Show the repo list or the loading screen based on whether the repos data exists and is loaded
